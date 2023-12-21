@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/midoq/p/16969756.html -->
+<html lang="zh-cn" style="--olcb-folder-code-block-max-height:80vh;" class=" "><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="description" content="ffmpeg是业界最负盛名的开源音视频框架之一，然而它的编译安装对于刚刚入门的朋友来说可能会比较困扰。本文从自身经验出发，记录了在Windows下编译安装ffmpeg的过程，希望能够帮助到读者~">
+    <meta property="og:description" content="ffmpeg是业界最负盛名的开源音视频框架之一，然而它的编译安装对于刚刚入门的朋友来说可能会比较困扰。本文从自身经验出发，记录了在Windows下编译安装ffmpeg的过程，希望能够帮助到读者~">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/blog-common.min.css">
+    
+
+    <link id="MainCss" rel="stylesheet" href="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/bundle-bluesky.min.css">
+        
+    <link type="text/css" rel="stylesheet" href="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/custom.css">
+    <link type="text/css" rel="stylesheet" href="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/JetBrainsMono-Regular.min.css">
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/bundle-bluesky-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/midoq/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/midoq/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/midoq/wlwmanifest.xml">
+    <script>
+        var currentBlogId = 776248;
+        var currentBlogApp = 'midoq';
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'BlueSky';
+        var visitorUserId = '';
+        var hasCustomScript = true;
+        window.cb_enable_mathjax = false;
+        window.mathEngine = 1;
+        window.codeHighlightEngine = 1;
+        window.enableCodeLineNumber = true;
+        window.codeHighlightTheme = 'atom-one-light';
+        window.darkModeCodeHighlightTheme = 'atom-one-dark';
+        window.isDarkCodeHighlightTheme = false;
+        window.isDarkModeCodeHighlightThemeDark = true;
+        window.isDisableCodeHighlighter = true;
+        window.enableCodeThemeTypeFollowSystem = false;
+        window.enableMacStyleCodeBlock = false;
+    </script>
+        <script>
+            window.currentPostId = 16969756;
+            window.currentPostDateAdded = '2022-12-09 18:47';
+        </script>
+    <script src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/blog-common.min.js.下载"></script><style>.medium-zoom-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 300ms;
+  will-change: opacity;
+}
+
+.medium-zoom--opened .medium-zoom-overlay {
+  cursor: pointer;
+  cursor: zoom-out;
+  opacity: 1;
+}
+
+.medium-zoom-image {
+  cursor: pointer;
+  cursor: zoom-in;
+  /*
+    The `transition` is marked as "!important" for the animation to happen
+    even though it's overriden by another inline `transition` style attribute.
+
+    This is problematic with frameworks that generate inline styles on their
+    images (e.g. Gatsby).
+
+    See https://github.com/francoischalifour/medium-zoom/issues/110
+   */
+  transition: transform 300ms cubic-bezier(0.2, 0, 0.2, 1) !important;
+}
+
+.medium-zoom-image--hidden {
+  visibility: hidden;
+}
+
+.medium-zoom-image--opened {
+  position: relative;
+  cursor: pointer;
+  cursor: zoom-out;
+  will-change: transform;
+}
+</style><script src="chrome-extension://nngceckbapebfimnlniiiahkandclblb/content/fido2/page-script.js"></script>
+        <script>updateCustomBlogReferrer();</script>
+    
+
+    
+<meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ=="><meta http-equiv="origin-trial" content="A/ERL66fN363FkXxgDc6F1+ucRUkAhjEca9W3la6xaLnD2Y1lABsqmdaJmPNaUKPKVBRpyMKEhXYl7rSvrQw+AkAAACNeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A6OdGH3fVf4eKRDbXb4thXA4InNqDJDRhZ8U533U/roYjp4Yau0T3YSuc63vmAs/8ga1cD0E3A7LEq6AXk1uXgsAAACTeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiRmxlZGdlQmlkZGluZ0FuZEF1Y3Rpb25TZXJ2ZXIiLCJleHBpcnkiOjE3MTkzNTk5OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/f.txt" async=""></script><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><meta property="og:image" content="https://midoq-image-host.oss-cn-hangzhou.aliyuncs.com/images/2022-12-08-20-12-42.png"><link rel="shortcut icon" href="https://img2018.cnblogs.com/blog/1138447/201909/1138447-20190911161817172-1737762696.png"></head>
+<body class="skin-bluesky no-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc navbar-custom">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding">
+                    <a href="https://www.cnblogs.com/" title="开发者的网上家园" role="banner">
+                        <img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/logo.svg" alt="博客园Logo">
+                    </a>
+                </li>
+                <li><a href="https://cnblogs.vip/">会员</a></li>
+                <li>
+                    <a href="https://news.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-news&#39;)">新闻</a>
+                </li>
+                <li>
+                    <a href="https://q.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-q&#39;)">博问</a>
+                </li>                              
+                <li>
+                    <a href="https://ing.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-ing&#39;)">闪存</a>
+                </li>
+                <li>
+                    <a href="https://edu.cnblogs.com/" onclick="countClicks(&#39;nav&#39;, &#39;skin-navbar-edu&#39;)">班级</a>
+                </li>
+                <li><a href="https://hh.hanghang.com/AIjingpinke" target="_blank">AI培训</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search dropdown" action="https://zzk.cnblogs.com/s" method="get" role="search">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="search" tabindex="3" autocomplete="off">
+                        <button id="zzk_search_button" onclick="window.navbarSearchManager.triggerActiveOption()">
+                            <img id="search_icon" class="focus-hidden" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/search.svg" alt="搜索">
+                            <img class="hidden focus-visible" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/enter.svg" alt="搜索">
+                        </button>
+                        <ul id="navbar_search_options" class="dropdown-menu quick-search-menu">
+                            <li tabindex="0" class="active" onclick="zzkSearch(event, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                <div class="keyword-wrapper">
+                                    <img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/search.svg" alt="搜索">
+                                    <div class="keyword"></div>
+                                </div>
+                                <span class="search-area">所有博客</span>
+                            </li>
+                                    <li tabindex="1" onclick="zzkBlogSearch(event, &#39;midoq&#39;, document.getElementById(&#39;zzk_search_input&#39;).value)">
+                                        <div class="keyword-wrapper">
+                                            <img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/search.svg" alt="搜索">
+                                            <div class="keyword"></div>
+                                        </div>
+                                        <span class="search-area">当前博客</span>
+                                    </li>
+                        </ul>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <a id="navbar_lite_mode_indicator" data-current-page="blog" style="display: none" href="javascript:void(0)" alt="简洁模式" title="简洁模式启用，您在访问他人博客时会使用简洁款皮肤展示">
+                        <img class="navbar-icon" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/lite-mode-on.svg" alt="简洁模式">
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/avatar-default.svg" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/lite-mode-check.svg" class="hide" style="display: none;"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div id="page_begin_html">
+        <!-- ............自定义首部代码开始............ -->
+<!-- 自定义进度条 -->
+<div id="myProgressBar" style="display: none;"></div>
+
+<!-- 自定义导航条 -->
+<div id="mynavbar" style="margin-top: 0px;">
+    <div style="position:relative;width:70pc;height:70px;margin:0 auto;">
+        <a style="width: auto;height: 35px;margin-left: 5px;" class="c-c" href="https://www.cnblogs.com/midoq">
+            <img id="nv-icon" style="width: auto; height: 28px; outline: 0; margin-top: 25px;" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/icon-midoq-hexagon-blog-name.png">
+        </a>
+        <div id="mynavbar_menu">
+            <a href="https://www.cnblogs.com/midoq" class="c-c">首页</a>
+            <a href="https://msg.cnblogs.com/send/midoq" class="c-c">联系</a>
+            <a id="myGayhubUrl" href="https://github.com/MidoQ" class="c-c">Github</a>
+            <!-- <a id="friendLink" href="#">友情链接</a> -->
+            <a href="https://www.cnblogs.com/">博客园</a>
+            <a href="https://i.cnblogs.com/posts">管理</a>
+            <a id="aboutMe" href="https://www.cnblogs.com/midoq">关于</a>
+        </div>
+    </div>
+</div>
+
+<!-- 自定义头部锚点 -->
+<a name="mtop"></a>
+
+<!-- 自定义头部 -->
+<div id="myheader">
+    <!-- 背景图片 -->
+    <div id="myheader_bg" style="background-image: url(&quot;https://midoq-image-host.oss-cn-hangzhou.aliyuncs.com/images/vista-wei-0oXKXpoQEb4-unsplash-width2560.jpg&quot;); filter: blur(0px);"></div>
+    <!-- 遮罩层 -->
+    <div id="myheader_cover" title="点我点我">
+        <!-- 博客标题 -->
+        <div id="mypost_title" style="opacity: 1; top: 75pt;">
+            <div id="mypost_title_h" style="font-weight: 500;font-size: 21px;">
+    <span role="heading" aria-level="2">ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献</span>
+    
+
+
+
+</div>
+            <div id="mypost_title_f">发布日期: 2022-12-09 18:47    分类: 
+            <a href="https://www.cnblogs.com/midoq/category/2252313.html" target="_blank">C/C++</a>
+,             <a href="https://www.cnblogs.com/midoq/category/2253363.html" target="_blank">音视频</a>
+  作者: <a rel="nofollow noopener" href="https://cnblogs.com/midoq">MidoQ</a></div>
+            <div id="mypost_title_e">  分类: 
+            <a href="https://www.cnblogs.com/midoq/category/2252313.html" target="_blank">C/C++</a>
+,             <a href="https://www.cnblogs.com/midoq/category/2253363.html" target="_blank">音视频</a>
+</div>
+        </div>
+    </div>
+</div>
+<!-- ............自定义首部代码结束............ -->
+    </div>
+
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/midoq/"><img id="blogLogo" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/midoq/">MidoQ的小站</a>
+</h1>
+<h2>─=≡Σ(((つ•̀ω•́)つ 知识时光机</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/midoq/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/MidoQ">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/midoq/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 14&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 0&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 5833">
+5833</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent" style="opacity: 1; margin-top: 0px;">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/midoq/p/16969756.html">
+    <span role="heading" aria-level="2">ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献</span>
+    
+
+
+
+</a><button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        
+        ffmpeg是业界最负盛名的开源音视频框架之一，然而它的编译安装对于刚刚入门的朋友来说可能会比较困扰。本文从自身经验出发，记录了在Windows下编译安装ffmpeg的过程，希望能够帮助到读者~
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><ul id="right_meun" style="display: inline-block;"><li id="0li"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption_0">ffmpeg 简介<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a><ul></ul></li><li id="1li"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption_1">ffmpeg 库在 Windows 下的安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a><ul><li><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption0" style="color:#5f5f5f;">环境准备<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a></li><li><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption1" style="color:#5f5f5f;">编译和安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a></li></ul></li><li id="2li"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption_2">ffmpeg 的 Hello World 程序<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a><ul></ul></li><li id="3li"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption_3">入门资料<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a><ul></ul></li><li id="4li"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#_caption_4">后记<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></a><ul></ul></li></ul>
+<p>最近项目需要，使用了 ffmpeg 做摄像头视频采集和串流。这几天有点时间，打算把相关的一些知识记录分享一下。</p>
+<p>在撰写本文时，我又在另外一台电脑上把 ffmpeg 重新安装了一遍，所以绝对真实靠谱！如果你觉得文章写得还不错，敬请点个赞支持一下，十分感谢~</p>
+<a rel="nofollow noopener" name="_caption_0"></a><h2 id="ffmpeg-简介">ffmpeg 简介<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>ffmpeg是一套跨平台的，用于音视频录制、转换、流化等操作的完善的解决方案，它是业界最负盛名的开源音视频框架之一。许多软件都是基于ffmpeg开发的，如格式工厂、各种xx影音等。</p>
+<p>ffmpeg 是一套开源库以及命令行工具的集合，用户既可以使用命令行直接对音视频进行操作（CLI），也可以调用其开源库进行个性化的功能开发（SDK）。</p>
+<p>如果要在自己的程序中使用 ffmpeg ，那么使用它的 SDK 是最好的选择。当前 ffmpeg 包含以下几个库：</p>
+<ul>
+<li><strong>libavcodec</strong> : 编/解码</li>
+<li><strong>libavfilter</strong> : 帧级操作（如添加滤镜）</li>
+<li><strong>libavformat</strong> : 文件 I/O 和 封装/解封装</li>
+<li><strong>libavdevice</strong> : 设备视频文件的封装/解封装</li>
+<li><strong>libavutil</strong> : 通用工具集合</li>
+<li><strong>libswresample</strong> : 音频重采样、格式处理、混音等</li>
+<li><strong>libpostproc</strong> : 预处理</li>
+<li><strong>libswscale</strong> : 色彩处理和缩放</li>
+</ul>
+<a rel="nofollow noopener" name="_caption_1"></a><h2 id="ffmpeg-库在-windows-下的安装">ffmpeg 库在 Windows 下的安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>这个项目大部分是在 Linux 开发板上做的，Windows 上占一小部分。虽然如此，在 Windows 上安装 ffmpeg 的步骤一点都没法省。</p>
+<p>ffmpeg 目前不提供预编译的库文件，而是需要自己下载源码并编译。看网上说 Windows 下编译 ffmpeg 非常麻烦，我想应该是“找到好用的教程”比较麻烦。本文使用 MSYS2 来编译 ffmpeg ，许多问题可以迎刃而解！</p>
+<a rel="nofollow noopener" name="_caption0"></a><h3 id="环境准备">环境准备<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>在 Windows 下，编译需要做的准备如下：</p>
+<ul>
+<li>安装并配置 MYSY2</li>
+<li>安装 git （可选）</li>
+<li>ffmpeg 源码</li>
+<li>x264 源码（可选）</li>
+</ul>
+<p>本节只讲述 MSYS2 的安装和配置和源码的下载。git 可根据需要自行选择安装。</p>
+<h4 id="安装-msys2-及编译工具链">安装 MSYS2 及编译工具链<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p>MSYS2 是 Windows 下的一组编译套件，它可以在 Windows 系统中模拟 Linux 下的编译环境，如使用 shell 运行命令、使用 pacman 安装软件包、使用 gcc (MinGW) 编译代码等。简单来说，使用 MSYS2 ，你可以通过在 Linux 下非常熟悉的各种命令，来编译 Windows 下的软件。</p>
+<blockquote>
+<p>官网描述：It provides a native build environment, based on open source software, and makes you feel right at home when you are already comfortable with Linux.</p>
+</blockquote>
+<p>MSYS2 的安装也非常省心，只需要到 <a href="https://www.msys2.org/" target="_blank" rel="noopener">MSYS2 官网</a> 下载<code>.exe</code>安装包，管理员身份运行安装即可。</p>
+<p>注意安装盘必须是NTFS，路径要全使用 ACSII 字符，不能有空格。建议就安装在默认位置，如果不想装在 C 盘，就直接改下盘符，装在其他盘的根目录。</p>
+<p>安装完毕后，开始菜单里就会有下面的程序：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-08-20-12-42.png" alt="2022-12-08-20-12-42" loading="lazy" class="medium-zoom-image"></p>
+<p>点击它们就会启动一个 shell 窗口，Just like on Linux ! 这个 shell 程序默认是 Mintty，类似 Linux 系统中的 bash shell。MSYS2 支持多个编译器工具链，它们的环境是独立的（可以去安装文件夹查看），这里选择启动 MINGW64 （如果你也是64位系统的话）。</p>
+<p>首先为了提高下载速度，将下载源换成中科大的：</p>
+<pre><code class="language-sh">sed -i "s#mirror.msys2.org/#mirrors.ustc.edu.cn/msys2/#g" /etc/pacman.d/mirrorlist*
+pacman -Sy
+</code></pre>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-11-11-13.png" alt="2022-12-09-11-11-13" loading="lazy" class="medium-zoom-image"></p>
+<p>然后安装mingw64编译链和基本的依赖：</p>
+<pre><code class="language-sh">pacman -S mingw-w64-x86_64-toolchain  # mingw64编译工具链，win下的gcc
+pacman -S base-devel    # 一些基本的编译工具
+pacman -S yasm nasm     # 汇编器
+</code></pre>
+<p>安装完毕后，可以输入<code>gcc -v</code>查看 gcc 版本：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-11-16-46.png" alt="2022-12-09-11-16-46" loading="lazy" class="medium-zoom-image"></p>
+
+<p>最后需要添加环境变量。右击此电脑 -&gt; 属性 -&gt; 高级系统设置 -&gt; 环境变量 -&gt; 选择 <code>Path</code> （用户变量和系统变量都要）-&gt; 编辑 -&gt; 新建，添加编译工具链的路径：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-11-07-29.png" alt="2022-12-09-11-07-29" loading="lazy" class="medium-zoom-image"></p>
+<p>注意如果 MSYS2 没有安装在 C 盘，或者使用的不是 MINGW64 的shell，那么这里需要改成对应的路径。</p>
+<blockquote>
+<p>添加环境变量这一步，是为了以后使用其他编辑器或者IDE时，能够找到 MINGW64 的编译工具链。在 MSYS2 中编译 ffmpeg 本身是不需要添加 Windows 的环境变量的。</p>
+</blockquote>
+<h4 id="ffmpeg-源码下载">ffmpeg 源码下载<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p>在 <a href="https://ffmpeg.org/" target="_blank" rel="noopener">ffmpeg 官网</a> 下载源码，目前最新的版本是 5.1.2 。注意不要下载成 executable files 了，那个是可以直接运行的 CLI 程序。</p>
+<blockquote>
+<p>你也可以直接下载 snapshot 版本，不过我个人更愿意下载带版本数字的。试想两年之后，谁能知道你电脑里的 snapshot 是何年何月的 snapshot 呢？</p>
+</blockquote>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-08-15-10-59.png" alt="2022-12-08-15-10-59" loading="lazy" class="medium-zoom-image"></p>
+<p>三个 download 都可以，只是压缩包格式不一样：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-08-15-11-31.png" alt="2022-12-08-15-11-31" loading="lazy" class="medium-zoom-image"></p>
+<p>下载后解压到一个好找的文件夹即可。</p>
+<h4 id="x264-源码下载">x264 源码下载<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p>ffmpeg 提供了相当多的外部库支持，但是如果要使用的话需要自己编译外部库。因为项目需要用到视频编码，所以此处加入 x264 库。</p>
+<blockquote>
+<p>libx264 由 VideoLAN 组织所发布，它是 H.264 的一套性能较好的软编码器实现（不包括解码器）。H.264 (AVC) 是当前较常用的视频编码，目前 H.264 的继任者 H.265 (HEVC) 也渐趋成熟， VideoLAN 也有一套实现 libx265 。不过 libx265 的编译方式与 libx264 有所区别，目前我还没仔细研究。</p>
+</blockquote>
+<p><a href="https://www.videolan.org/developers/x264.html" target="_blank" rel="noopener">戳这里访问 x264 的官方页面</a></p>
+<p>官方建议使用 git 下载源码（下载压缩包再解压应该也是一样的）：</p>
+<pre><code class="language-sh">git clone https://code.videolan.org/videolan/x264.git
+</code></pre>
+<a rel="nofollow noopener" name="_caption1"></a><h3 id="编译和安装">编译和安装<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h3>
+<p>将所有源码放到同一文件夹下便于管理，我把它们都统一放在一个叫 ffmpeg 的文件夹下。然后再建立各自的 install 文件夹存储编译好的库（当然你也可以选择其他任何地方的文件夹）。</p>
+<p>为了方便，将编译的命令写成脚本 <code>build-x264.sh</code> 和 <code>build-ffmpeg.sh</code>。当前文件夹的结构如下（源码文件夹名称被我修改过了）：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-12-07-39.png" alt="2022-12-09-12-07-39" loading="lazy" class="medium-zoom-image"></p>
+<h4 id="编译-x264-库">编译 x264 库<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p><code>build-x264.sh</code>脚本内容如下：</p>
+<pre><code class="language-sh">#!/bin/sh
+basepath=$(cd `dirname $0`;pwd)
+echo ${basepath}
+
+cd ${basepath}/x264-src   # 根据路径名称自行修改
+pwd
+
+./configure --prefix=${basepath}/x264_install --enable-shared
+make -j8
+make install
+</code></pre>
+<p>注意第一行必须是 <code>#!/bin/sh</code> ，才能被 MSYS2 的 shell 识别为可执行脚本。（亲测在 MSYS2 中<code>chmod</code>命令没有效果）</p>
+<p>这几条命令中最重要的就是<code>./configure</code>命令，它的参数会指导编译器应该如何编译代码。这里 <code>--prefix</code> 参数指定了编译好的库文件的安装路径，可以自己任意指定。 <code>--enable-shared</code> 代表编译动态库。如果你需要静态库，那么需要加入 <code>-enable-static</code> 参数。</p>
+<p>此外，make 命令的<code>-j</code>参数是指并行编译的线程数，可以根据你的 CPU 核数自行确定。</p>
+<blockquote>
+<p>可以在源码文件夹下，通过 <code>./configure --help</code> 命令查看所有可选参数。</p>
+</blockquote>
+<p>在 MSYS2 的 shell 中，打开源码所在文件夹，并执行脚本：</p>
+<pre><code class="language-sh">cd /d/repos/ffmpeg
+./build-x264.sh
+</code></pre>
+<p>注意 MSYS2 中文件路径的写法，是以<code>/d</code>代表 D 盘，类似 Linux 的风格。</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-15-20-27.png" alt="2022-12-09-15-20-27" loading="lazy" class="medium-zoom-image"></p>
+<p>不出意外的话，等待片刻后就会在 <code>x264_install</code> 路径下看到编译好的库。其中 <code>bin/libx264-164.dll</code> 文件就是x264的动态库文件。</p>
+<p>如果出现错误，可以先单独执行 <code>.\configure</code> 命令，然后再执行 <code>make</code> ，逐步查找错误原因。</p>
+<h4 id="编译-ffmpeg-库">编译 ffmpeg 库<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h4>
+<p><code>build-ffmpeg.sh</code>脚本内容如下：</p>
+<pre><code class="language-sh">#!/bin/sh
+basepath=$(cd `dirname $0`;pwd)
+echo ${basepath}
+
+cd ${basepath}/ffmpeg-5.1.2-src
+pwd
+
+export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:/d/repos/ffmpeg/x264_install/lib/pkgconfig
+echo ${PKG_CONFIG_PATH}
+
+./configure --prefix=${basepath}/ffmpeg_5.2.1_install \
+--enable-gpl --enable-libx264 --disable-static --enable-shared \
+--extra-cflags=-l${basepath}/x264_install/include --extra-ldflags=-L${basepath}/x264_install/lib
+
+make -j8
+make install
+</code></pre>
+<p>使用的命令与<code>libx264</code>类似，也是先 <code>configure</code> 再 <code>make</code> 。如果需要添加 x264 支持的话，需要注意以下几点：</p>
+<ul>
+<li>加入 <code>--enable-libx264</code> 参数</li>
+<li>指定 PKG_CONFIG_PATH 变量，告知编译器 x264 库的路径</li>
+<li>指定 x264 库的头文件包含路径及动态库链接的路径</li>
+</ul>
+<p>ffmpeg 可自定义的编译参数非常多，有需要可自行研究。</p>
+<p>然后同样也是执行脚本即可：</p>
+<pre><code class="language-sh">cd /d/repos/ffmpeg
+./build-ffmpeg.sh
+</code></pre>
+<p>ffmpeg 代码量较大，可能会编译比较久，多线程 make 可加快编译速度。我使用<code>make -j8</code>大约花了七八分钟。</p>
+<p>编译完成后，就可以在 ffmpeg_5.2.1_install 路径下看到库文件了。其中 bin 下的一堆 dll 就是动态库文件。</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-15-33-12.png" alt="2022-12-09-15-33-12" loading="lazy" class="medium-zoom-image"></p>
+<p>现在 ffmpeg 的 SDK 就任你调用了！下一节我们来试试调用 ffmpeg 编写程序。</p>
+<a rel="nofollow noopener" name="_caption_2"></a><h2 id="ffmpeg-的-hello-world-程序">ffmpeg 的 Hello World 程序<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>在 ffmpeg 安装路径下，打开 share\ffmpeg\examples ，可以看到 ffmpeg 的示例程序，它们也可以在 <a href="https://ffmpeg.org/doxygen/trunk/examples.html" target="_blank" rel="noopener">ffmpeg 的在线 API 文档</a> 中查看到。</p>
+<p>其中的 <code>avio_reading.c</code> 相当于 ffmpeg 的 Hello World，它会读取一个媒体文件的元数据信息并打印显示。</p>
+<p>另外建一个文件夹，将<code>avio_reading.c</code>复制过去，然后用在 MYSY2 中打开这个目录，使用 gcc 命令编译。</p>
+<p>gcc命令如下：</p>
+<pre><code class="language-sh">gcc avio_reading.c -o test \
+-I"D:/repos/ffmpeg/ffmpeg_5.2.1_install/include/" \
+-L"D:/repos/ffmpeg/ffmpeg_5.2.1_install/bin/" \
+-lavcodec -lavformat -lavutil
+</code></pre>
+<p>编译完毕后，将在当前文件夹下生成可执行文件<code>test.exe</code>。</p>
+<p>注意在 shell 中运行程序之前，需要将两个库的安装目录添加到环境变量 PATH （这是MSYS2 的环境变量，不是 Windows 系统的）。</p>
+<pre><code class="language-sh">export PATH=$PATH:/d/repos/ffmpeg/x264_install/bin:/d/repos/ffmpeg/ffmpeg_5.2.1_install/bin
+</code></pre>
+<p>如果不执行export命令的话，那么运行<code>test.exe</code>时就无法链接到动态库，更令人困扰的是不会弹出任何提示，所以一定记得添加。当然如果你觉得每次打开都要运行太麻烦，也可以将这条命令添加到 <code>你的安装位置/msys64/etc/profile</code> 文件的末尾，这个文件和 Linux 下的<code>/etc/profile</code>文件作用是类似的。</p>
+<p>运行测试效果如下：</p>
+<p><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-17-21-35.png" alt="2022-12-09-17-21-35" loading="lazy" class="medium-zoom-image"></p>
+<p>至此，我们迈出了使用 ffmpeg 库的第一步——也是一大步！</p>
+<blockquote>
+<p>由于 gcc 的编译命令很长，重复手打很不方便，所以我一般会使用 vscode+cmake 的方式来做开发。不过这个配置又是较为麻烦的一件事，限于篇幅本文不再详述，感兴趣的读者可自行查阅资料。基本上只要注意把 gcc 的命令参数转换到 CmakeLists.txt 文件里，并注意终端的环境变量配置即可。</p>
+</blockquote>
+<a rel="nofollow noopener" name="_caption_3"></a><h2 id="入门资料">入门资料<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>ffmpeg 我也是最近才开始用，官方对 SDK 没有详细的入门教程，仅提供了 Doxygen 风格的 API 文档供查询。所以这里贴两个我觉得很好的入门帖，供与我一样刚刚入门的朋友参考。</p>
+<p>首先是 Github 上的一篇tutorial：<a href="https://github.com/leandromoreira/ffmpeg-libav-tutorial" target="_blank" rel="noopener">ffmpeg-libav-tutorial</a> ，篇幅不长，读完可以对音视频有一个基本的认知。</p>
+<p>然后是已故的音视频领域先驱<a href="https://blog.csdn.net/leixiaohua1020/article/details/15811977" target="_blank" rel="noopener">雷霄骅（雷神）的博客</a> 。需要注意的是现在的 ffmpeg 相比雷神当年使用的版本已经有了许多变化，使用雷神的源代码有时还需要修改。（斯人已逝，生者如斯！）</p>
+<p>其他较为系统的参考资料我还没有找到，基本就是根据需要去百度or谷歌。有时 ffmpeg 官网也能派上一些用场，可以多翻翻。</p>
+<a rel="nofollow noopener" name="_caption_4"></a><h2 id="后记">后记<button class="cnblogs-toc-button" title="显示目录导航" aria-expanded="false"></button></h2>
+<p>MSYS2 真是个好东西！</p>
+<p>下一篇将讨论 ffmpeg 在 Linux 上的安装以及交叉编译的问题。</p>
+<img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/2022-12-09-18-23-40.png" width="50%" class="medium-zoom-image">
+<blockquote>
+<p>参考资料：<br>
+<a href="https://mirrors.ustc.edu.cn/help/msys2.html" target="_blank" rel="noopener">MSYS2中科大镜像源帮助</a><br>
+<a href="http://events.jianshu.io/p/53ecc4dbe7d0" target="_blank" rel="noopener">FFmpeg编译无坑版（Windows篇）</a></p>
+</blockquote>
+
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block" role="contentinfo">
+
+
+<div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/midoq/category/2252313.html" target="_blank">C/C++</a>
+,             <a href="https://www.cnblogs.com/midoq/category/2253363.html" target="_blank">音视频</a>
+</div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(16969756,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;0dd3afb8-77af-4ae6-4534-08d5f422f4b6&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareManager.wechatShare()"><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/midoq/" target="_blank"><img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/midoq/">MidoQ</a>
+            <br>
+            <a href="https://home.cnblogs.com/u/midoq/followers/">粉丝 - <span class="follower-count">1</span></a>
+            <a href="https://home.cnblogs.com/u/midoq/followees/">关注 - <span class="following-count">0</span></a><br>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow" class="follow-tip">
+                <a href="javascript:void(0);" onclick="follow(&#39;0dd3afb8-77af-4ae6-4534-08d5f422f4b6&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(16969756,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+    <div class="buryit" onclick="votePost(16969756,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script>
+</div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/midoq/p/16961822.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/midoq/p/16961822.html" data-featured-image="" title="发布于 2022-12-06 23:38">Ubuntu20.04更换国内镜像源（阿里、网易163、清华、中科大）</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date" data-last-update-days="360.15465342479513" data-date-created="BlogServer.Application.Dto.BlogPost.BlogPostDto" data-date-updated="2022-12-10 17:37" aria-expanded="false">2022-12-09 18:47</span>&nbsp;
+<a href="https://www.cnblogs.com/midoq/">MidoQ</a>&nbsp;
+阅读(<span id="post_view_count">1820</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=16969756" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(16969756);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: &#39;&#39;, targetType: &#39;blogPost&#39;, targetId: &#39;16969756&#39;, targetLink: &#39;https://www.cnblogs.com/midoq/p/16969756.html&#39;, title: &#39;ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献&#39; })">举报</a>
+</div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script>
+    var cb_entryId = 16969756, cb_entryCreatedDate = '2022-12-09 18:47', cb_postType = 1, cb_postTitle = 'ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献';
+    var allowComments = true, cb_blogId = 776248, cb_blogApp = 'midoq', cb_blogUserGuid = '0dd3afb8-77af-4ae6-4534-08d5f422f4b6';
+    mermaidRender.render()
+    markdown_highlight()
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");    
+</script>
+<a id="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav">
+            <a class="comment-nav-left" href="https://www.cnblogs.com/cmt/p/17520031.html" target="_blank">会员救园</a>
+        <div class="comment-nav-right">
+            <span id="span_refresh_tips"></span><a href="https://www.cnblogs.com/midoq/p/16969756.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/midoq/p/16969756.html#top">返回顶部</a>
+        </div>
+    </div>
+    <div id="comment_form_container"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login(&#39;!comments&#39;);">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+        <div id="cnblogs_ch"></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card" style="display: none;">
+            <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none; width: 300px; height: 0px;"></div></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/huangxincheng/p/17874509.html" target="_blank">聊一聊 .NET高级调试 中的一些内存术语</a>
+    <br>
+· <a href="https://www.cnblogs.com/grey-wolf/p/17871750.html" target="_blank">安卓端出现 https 请求失败的一次问题排查</a>
+    <br>
+· <a href="https://www.cnblogs.com/WindrunnerMax/p/17871444.html" target="_blank">初探 webpack 之单应用多端构建</a>
+    <br>
+· <a href="https://www.cnblogs.com/pengze0902/p/17866309.html" target="_blank">深入解析 C# List &lt; T &gt; 的源码</a>
+    <br>
+· <a href="https://www.cnblogs.com/czwy/p/17862702.html" target="_blank">.NET 中有多少种定时器</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>阅读排行：</b>
+    <br>
+ ·          <a href="https://www.cnblogs.com/Can-daydayup/p/17873700.html" target="_blank">C#/.NET/.NET Core优秀项目和框架2023年11月简报</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/xueweihan/p/17874185.html" target="_blank">叮咚，你的微信年度聊天报告请查收「GitHub 热点速览」</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/huangxincheng/p/17874509.html" target="_blank">聊一聊 .NET高级调试 中的一些内存术语</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/edisonchou/p/dotnet_conf_2023_chengdu_introduction.html" target="_blank">.NET Conf 2023 Chengdu - 成都会场即将到来！</a>
+        <br>
+ ·          <a href="https://www.cnblogs.com/powertoolsteam/p/17869578.html" target="_blank">C#12新功能有哪些？</a>
+        <br>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+        var commentManager = new blogCommentManager();
+        commentManager.renderComments(0);
+        fixPostBody();
+        window.footnoteTipManager.generateFootnoteTips();
+
+            window.tocManager.displayDisableTocTips = false;
+            window.tocManager.generateToc();
+            
+                setTimeout(function() { countViews(cb_blogId, cb_entryId); }, 50);
+            
+            deliverT2();
+            deliverC1C2();
+            loadNewsAndKb();
+            
+                LoadPostCategoriesTags(cb_blogId, cb_entryId);
+            
+            LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+            GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+            loadOptUnderPost();
+            GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+                </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem">
+    <h3 class="catListTitle">公告</h3>
+<div id="blog-news">    
+    <div id="sidebar_news_content">
+<div id="profile_block">
+    昵称：
+    <a href="https://home.cnblogs.com/u/midoq/">
+        MidoQ
+    </a>
+    <br>
+    园龄：
+    <a href="https://home.cnblogs.com/u/midoq/" title="入园时间：2018-07-28">
+        5年4个月
+    </a>
+    <br>
+    粉丝：
+    <a class="follower-count" href="https://home.cnblogs.com/u/midoq/followers/">
+        1
+    </a>
+    <br>
+    关注：
+    <a class="folowing-count" href="https://home.cnblogs.com/u/midoq/followees/">
+        0
+    </a>
+    <div id="p_b_follow" class="follow-tip">
+<a href="javascript:void(0)" onclick="follow(&#39;0dd3afb8-77af-4ae6-4534-08d5f422f4b6&#39;)">+加关注</a></div>
+    <script>getFollowStatus('0dd3afb8-77af-4ae6-4534-08d5f422f4b6');</script>
+</div>
+</div>
+</div>
+<script>loadBlogNews();</script>
+
+ 
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2023/11/05&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2023年12月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2024/01/05&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        2
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            3
+                        </td>
+                            <td class="" align="center">
+                                4
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            9
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            10
+                        </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            17
+                        </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            24
+                        </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            31
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div class="mySearch my-search">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    <li><a href="https://www.cnblogs.com/midoq/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/midoq/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/midoq/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/midoq/comments" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/midoq/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+    <a class="sidebar-card-title-a" href="https://www.cnblogs.com/midoq/post-categories">随笔分类</a>
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252313.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">C/C++(4)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252314.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">Java(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252309.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">Linux(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252315.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">Python(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252308.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">嵌入式(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252311.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">软件使用(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252312.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">算法与数据结构(2)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2252302.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">学术(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2253363.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">音视频(1)</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/category/2251105.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">云计算(2)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/midoq/archive/2022/12.html" style="--cnb-category-item-link-indent-size: calc(0 * 1em)" class="category-item-link" rel="" target="">2022年12月(14)</a>
+ 
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+    <h3 class="catListTitle">
+        <a href="https://www.cnblogs.com/midoq/most-viewed" class="sidebar-card-title-a">
+    阅读排行榜
+</a>
+
+    </h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/midoq/p/16969756.html">
+                            1. ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献(1817)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/midoq/p/16961817.html">
+                            2. C/C++标准输入输出函数终极最全解析（不全捶我）(1046)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/midoq/p/16961822.html">
+                            3. Ubuntu20.04更换国内镜像源（阿里、网易163、清华、中科大）(857)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/midoq/p/16961779.html">
+                            4. VSCode解决Python中空格和制表符混用报错(796)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/midoq/p/16961743.html">
+                            5. EndNote设置导出参考文献格式为中文国标GBT7714(539)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"></div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">
+            <a href="https://www.cnblogs.com/midoq/most-liked" class="sidebar-card-title-a">推荐排行榜</a>
+
+        </h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/midoq/p/16969756.html">
+                                1. ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献(4)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div><div id="sidebar_recentcomments" class="sidebar-block"></div>
+
+
+</div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2023 MidoQ
+<br><span id="poweredby">Powered by .NET 8.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+
+    <div id="page_end_html">
+        <!-- ............自定义尾部代码开始............ -->
+<div id="post-bottom-bar" class="post-bottom-bar" style="bottom: 0px;">
+    <div class="bottom-bar-inner">
+        <!-- 左边 -->
+        <div class="bottom-bar-items social-share" style="float: left;">
+            <span class="bottom-bar-item bottom-bar-facebook">
+                <a rel="nofollow noopener" id="bottom-d" href="javascript:void(0)" target="_blank">点赞</a>
+            </span>
+            <span class="bottom-bar-item bottom-bar-twitter">
+                <a rel="nofollow noopener" id="bottom-g" href="javascript:void(0)" target="_blank">关注</a>
+            </span>
+            <span class="bottom-bar-item bottom-bar-qrcode">
+                <a rel="nofollow noopener" id="bottom-s" href="javascript:void(0)" target="_blank">收藏</a>
+            </span>
+        </div>
+        <!-- 右边 -->
+        <div class="bottom-bar-items right" style="float: right;">
+            <!-- <span class="bottom-bar-item"><a rel="nofollow noopener"  id="mbottom-left" href="javascript:void(0);">←</a></span>
+            <span class="bottom-bar-item"><a rel="nofollow noopener"  id="mbottom-right" href="javascript:void(0);">→</a></span>
+            <span class="bottom-bar-item"><a rel="nofollow noopener"  href="#mfooter">↓</a></span> -->
+            <span class="bottom-bar-item"><a rel="nofollow noopener" href="https://www.cnblogs.com/midoq/p/16969756.html#mtop">↑</a></span>
+        </div>
+    </div>
+</div>
+<a rel="nofollow noopener" name="mfooter"></a>
+<!-- ............自定义尾部代码结束............ -->
+
+
+<script type="text/javascript" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/nprogress.js.下载"></script><iframe src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+<script type="text/javascript">
+
+    //博主名称 可不改，默认取博客园提供的
+    var nickName = null;
+    //slogan
+    var slogan = '寻找向日葵';
+    //icon
+    var icon = "https://midoq-image-host.oss-cn-hangzhou.aliyuncs.com/images/icon-midoq-hexagon-blog-name.png";
+    //默认博客背景图片
+    var defaultPic = "https://midoq-image-host.oss-cn-hangzhou.aliyuncs.com/images/vista-wei-0oXKXpoQEb4-unsplash-width2560.jpg";
+    //icon(浏览器标题栏上的)
+    var iconB = "https://img2018.cnblogs.com/blog/1138447/201909/1138447-20190911161817172-1737762696.png";
+    // 首页地址
+    var homePageLink = "https://www.cnblogs.com/midoq";
+    //友情链接地址
+    // var friendLink = "https://www.cnblogs.com/midoq";
+    //关于地址
+    var aboutMe = "https://www.cnblogs.com/midoq";
+    //Github地址,假如博客username与Github username相同，不用改。
+    //如 cnblogs.com/username github.com/username 这样就不用改
+    var myGayhubUrl = "https://github.com/MidoQ";
+</script>
+<script type="text/javascript">
+    /**
+        用来设置初始时需要执行的js
+    */
+    $(document).ready(function () {
+
+        //获取博主名字
+        if (nickName == null) {
+            var footerOverTestArray = $($("#footer")[0].childNodes[2]).text().trim().split(" ");
+            nickName = footerOverTestArray[footerOverTestArray.length - 1];
+        }
+
+        //加载顶部进度条
+        NProgress.start();
+        NProgress.done();
+        $("#myProgressBar").hide();
+
+        //设置背景图片地址
+        if ($("#head_bg_img").val() != null && $("#head_bg_img").val() != "") {
+            $("#myheader_bg").css("background-image", "url(" + $("#head_bg_img").val() + ")");
+        } else {
+            $("#myheader_bg").css("background-image", "url(" + defaultPic + ")");
+        }
+
+        //设置标题
+        if ($("#cb_post_title_url").html()) {
+            $("#mypost_title_h").html($("#cb_post_title_url").html());
+        } else {
+            $("#mypost_title_h").html(nickName);
+        }
+
+        //正文和标题淡入
+        $("#mainContent").css("opacity", "1");
+        $("#mainContent").css("margin-top", "0");
+        $("#mypost_title").css("opacity", "1");
+        $("#mypost_title").css("top", "75pt");
+
+        /* --根据个人配置修改页面 start-- */
+        //修改a链接
+        var ccList = $(".c-c");
+        for (var cc of ccList) {
+            $(cc).attr("href", $(cc).attr("href").replace("summertime-wu", currentBlogApp));
+        }
+        //设置Github链接
+        if (myGayhubUrl != null) { $("#myGayhubUrl").attr("href", myGayhubUrl) }
+        //设置友链的链接
+        // $("#friendLink").attr("href", friendLink);
+        //设置关于的链接
+        $("#aboutMe").attr("href", aboutMe);
+        //设置两个iocn图标
+        $("#nv-icon").attr("src", icon);
+        var linkObject = document.createElement("link");
+        linkObject.rel = "shortcut icon";
+        linkObject.href = iconB;
+        document.getElementsByTagName("head")[0].appendChild(linkObject);
+        //设置底部栏按钮
+        if (window.location.href == "https://www.cnblogs.com/" + currentBlogApp ||
+            window.location.href == "https://www.cnblogs.com/" + currentBlogApp + "/" ||
+            window.location.href == "http://www.cnblogs.com/" + currentBlogApp ||
+            window.location.href == "http://www.cnblogs.com/" + currentBlogApp + "/") {
+            $("#bottom-d").html("首页");
+            $("#bottom-d").attr("href", homePageLink);
+        } else {
+            var url = window.location.href;
+            var lastUrl = url.substring(url.lastIndexOf("/") + 1);
+            var mpageId = lastUrl.substring(0, lastUrl.indexOf("."));
+            $("#bottom-d").click(function () {
+                DiggIt(mpageId, cb_blogId, 1);
+                green_channel_success(this, '谢谢推荐！');
+            })
+        }
+        /* --根据个人配置修改页面 end-- */
+    })
+
+    /**
+        设置ajax请求加载完所有数据时执行的js
+    */
+    setTimeout(afterAjax, 1000);
+    function afterAjax() {
+        //假如是首页
+        if (window.location.href == "https://www.cnblogs.com/" + currentBlogApp ||
+            window.location.href == "https://www.cnblogs.com/" + currentBlogApp + "/" ||
+            window.location.href == "http://www.cnblogs.com/" + currentBlogApp ||
+            window.location.href == "http://www.cnblogs.com/" + currentBlogApp + "/") {
+            $("#mypost_title_e").html('<a rel="nofollow noopener"  href="https://cnblogs.com/' + currentBlogApp + '">' + slogan + '</a>');
+        } else {
+            var classification = null;
+            if ($("#BlogPostCategory").html() != null && $("#BlogPostCategory").html() != "") {
+                classification = $("#BlogPostCategory").html();
+                classification = classification.substring(3, classification.length);
+            } else {
+                classification = '<a rel="nofollow noopener"  href="https://cnblogs.com/' + currentBlogApp + '">暂未分类</a>';
+            }
+            var ftitle = '发布日期: ' + $("#post-date").html() + '&emsp;&emsp;' + classification
+                + '&emsp;&emsp;作者: <a rel="nofollow noopener"  href="https://cnblogs.com/' + currentBlogApp + '">' + nickName + '</a>';
+            //设置副标题标题
+            $("#mypost_title_f").html(ftitle);
+            //设置标题分类按钮
+            $("#mypost_title_e").html(classification);
+            //设置底部导航条上一篇下一篇文章
+            var pnp = $("#post_next_prev a");
+            $("#mbottom-left").attr("href", pnp[1].href);
+            if (pnp.length > 2) {
+                $("#mbottom-right").attr("href", pnp[3].href);
+            }
+        }
+        $("#myheader_bg").css("filter", "blur(0px)");
+
+        //优化评论区样式
+        $("#comment_form_container p:last").hide();
+        $("#commentbox_opt a:last").hide();
+        $("#tbCommentBody").attr('placeholder', 'Your comment here. Be cool. ');
+    }
+
+
+    /** 
+        自定义的js方法
+    */
+    //设置底部导航条点击关注按钮事件
+    $("#bottom-g").click(function () {
+        $('#green_channel_follow').click()
+        return false
+    })
+    $("#bottom-s").click(function () {
+        AddToWz(cb_entryId);
+        return false;
+    })
+
+
+    //通过滚动条控制导航条的展现隐藏
+    var oldScrollNum = 0;
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        //下滑
+        if (t > oldScrollNum) {
+            if (t > 120) {
+                $("#mynavbar").css("margin-top", "-70px");//顶部导航
+                $("#post-bottom-bar").css("bottom", "-3pc");//底部导航
+            }
+            if (t > 300) {
+                $("#right_meun").css("display", "inline-block");//右侧导航
+            }
+            //上拉
+        } else {
+            //防止用a链接跳转也触发效果
+            if (oldScrollNum - t < 20) {
+                $("#mynavbar").css("margin-top", "0px");//顶部导航
+                $("#post-bottom-bar").css("bottom", "0");//底部导航
+            }
+            if (t <= 300) {
+                $("#right_meun").css("display", "none");//右侧导航
+            }
+        }
+        oldScrollNum = t;
+    }
+
+    //背景大图点击模糊||清晰
+    $("#myheader_cover").click(function () {
+        if ($("#myheader_bg").css("filter") == "blur(3px)") {
+            $("#myheader_bg").css("filter", "blur(0px)");
+        } else {
+            $("#myheader_bg").css("filter", "blur(3px)");
+        }
+    })
+</script>
+
+<script type="text/javascript">
+    var setMyBlog = {
+        setCopyright: function () {
+            //设置版权信息，转载出处自动根据页面url生成
+            var info_str = '<p>作者：<a rel="nofollow noopener"  target="_blank">@gzdaijie</a><br>' +
+                '本文为作者原创，转载请注明出处：<a rel="nofollow noopener"  class="uri"></a></p><hr></hr>',
+                info = $(info_str),
+                info_a = info.find("a"),
+                url = window.location.href;
+            $(info_a[0]).attr("href", "https://github.com/gzdaijie");
+            $(info_a[1]).attr("href", url).text(url);
+            $("#cnblogs_post_body").prepend(info);
+        },
+        setCodeRow: function () {
+            // 代码行号显示
+            var pre = $("pre.sourceCode"); //选中需要更改的部分
+            if (pre && pre.length) {
+                pre.each(function () {
+                    var item = $(this);
+                    var lang = item.attr("class").split(" ")[1]; //判断高亮的语言
+                    item.html(item.html().replace(/<[^>]+>/g, "")); //将<pre>标签中的html标签去掉
+                    item.removeClass().addClass("brush: " + lang + ";"); //根据语言添加笔刷
+                    SyntaxHighlighter.all();
+                })
+            }
+        },
+        setAtarget: function () {
+            // 博客内的链接在新窗口打开
+            $("#cnblogs_post_body a").each(function () {
+                if (this.href.indexOf(window.location.href === 0)) {
+                    // 如果 url 指向当前博客
+                    // 不要在新窗口打开
+                } else {
+                    this.target = "_blank";
+                }
+            })
+        },
+        setContent: function () {
+            // 根据h2、h3标签自动生成目录
+            var captions_ori = $("#cnblogs_post_body h2"),
+                captions_ori2 = $("#cnblogs_post_body h3"),
+                captions = $("#cnblogs_post_body h2,#cnblogs_post_body h3").clone(),
+                content = $("<ul id='right_meun'></ul>");
+            $("#cnblogs_post_body").prepend(content.append(captions));
+            var index = -1, index2 = -1;
+            captions.replaceWith(function () {
+                var self = this;
+                if (self.tagName == "H2" || self.tagName == "h2") {
+                    // 设置点击目录跳转
+                    index += 1;
+                    $('<a rel="nofollow noopener"  name="' + '_caption_' + index + '"></a>').insertBefore(captions_ori[index]);
+                    return '<li id="' + index + 'li"><a rel="nofollow noopener"  href="#_caption_' + index + '">' + self.innerHTML + '</a><ul></ul></li>';
+                } else {
+                    // add by summertime-wu 增加h3链接跳转
+                    index2 += 1;
+                    $('<a rel="nofollow noopener"  name="' + '_caption' + index2 + '"></a>').insertBefore(captions_ori2[index2]);
+                    $("#" + index + "li ul").append('<li><a rel="nofollow noopener"  href="#_caption' + index2 + '" style="color:#5f5f5f;">' + self.innerHTML + "</a></li>");
+                    return;
+                }
+            });
+        },
+        runAll: function () {
+            /* 运行所有方法
+             * setAtarget() 博客园内标签新窗口打开
+             * setContent() 设置目录
+             * setCopyright() 设置版权信息
+             * setCodeRow() 代码行号显示
+             */
+            this.setAtarget();
+            //假如为手机端不显示目录
+            if (document.body.clientWidth >= 1000) {
+                this.setContent();
+            }
+            // this.setCopyright();
+            this.setCodeRow();
+        }
+    }
+    setMyBlog.runAll();
+</script>
+
+<!-- 代码行号 -->
+<script src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/highlightjs-line-numbers.min.js.下载"></script>
+<script>hljs.initLineNumbersOnLoad();</script>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8DZoAyJmInJHoSwqM1IbzdT-SqGfpXmUc_E-hzMp2R5nWutvmHpQ49acynktRq9jT3_Un72rKj8QJtPGfEsW7O-tj8SnBLRaumAqvBTDliCCHZuPv26ePs-Tjb0XcKuWEMy7N-zqW-NmcYgNSh-Zn34">
+    <script async="" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/js"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-M95P3TTWJZ');
+</script>
+<script defer="" src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/hm.js.下载"></script>
+
+<div style="z-index: 998; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: none; flex-direction: column; align-items: center; justify-content: center">
+<div style="background: #fff;padding: 30px; margin: 30px; border-radius: 16px;">
+  <div style="width: 200px; height: 200px; background: rgba(255, 255, 255, 0.8); position: absolute; top: -100px; right: -100px; border-radius: 100px"></div>
+  <div style="text-align: center; font-size: 18px; margin-bottom: 10px;">点击右上角即可分享</div>
+  <img src="./ffmpeg库编译安装及入门指南（Windows篇）- 2022年底钜献 - MidoQ - 博客园_files/35695-20230906145857937-1471873834.gif" alt="微信分享提示">
+</div>   
+    </div></body></html>
